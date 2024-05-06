@@ -13,8 +13,8 @@ public class Defines {
     public static final int NUM_OF_PLANTS = 5;
     public static final int MAX_AMOUNT_OF_ORGANISMS = WORLD_N * WORLD_M;
     public static final char EMPTY_SPACE_CHAR = '+';
-    public static final int SAVE_GAME = 113; // letter q
-    public static final int LOAD_GAME = 119; // letter w
+    public static final int SAVE_GAME = 'Q';//113; // letter q
+    public static final int LOAD_GAME = 'W';//119; // letter w
     public static final char HUMAN_CHAR = 'H';
     public static final int UP = 0;
     public static final int DOWN = 1;

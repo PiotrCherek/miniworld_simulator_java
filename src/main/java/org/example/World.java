@@ -77,12 +77,12 @@ public class World {
         }
         return false;
     }
-    public boolean findOpponent(int x, int y, Organism opponent, Organism currentOrganism) {
+    public boolean findOpponent(int x, int y, Organism[] opponent, Organism currentOrganism) {
         for (int i = 0; i < getOrganismCount(); i++) {
             int tempX = organisms[i].getX();
             int tempY = organisms[i].getY();
             if (tempX == x && tempY == y && organisms[i] != currentOrganism) {
-                opponent = organisms[i];
+                opponent[0] = organisms[i];
                 return true;
             }
         }
@@ -317,6 +317,7 @@ public class World {
     public void loadGame() {
         organismsClear();
         this.organismCount = 0;
+        Human human;
         try {
             File gameFile = new File("gameState.txt");
             Scanner gameState = new Scanner(gameFile);
@@ -333,9 +334,9 @@ public class World {
                 x = gameState.nextInt();
                 y = gameState.nextInt();
                 if (organismChar == Defines.HUMAN_CHAR) {
-                    Human human = new Human(this, x, y);
+                    human = new Human(this, x, y);
                     human.setInitiative(initiative);
-                    human.setStrenght(strenght);
+                    human.setStrength(strength);
                     human.setAge(age);
                     boolean superpowerActive = gameState.nextBoolean();
                     int superpowerCooldown = gameState.nextInt();
@@ -344,8 +345,7 @@ public class World {
                     human.setSuperpowerCooldown(superpowerCooldown);
                     human.setSuperpowerTurnsLeft(superpowerTurnsLeft);
                     addOrganism(human);
-                }
-                else {
+                } else {
                     Organism newOrganism = createOrganism(organismChar, x, y);
                     newOrganism.setInitiative(initiative);
                     newOrganism.setStrength(strength);
@@ -354,12 +354,78 @@ public class World {
                 }
             }
             gameState.close();
-        }
-        catch (FileNotFoundException exc) {
+        } catch (FileNotFoundException exc) {
             exc.printStackTrace();
         }
-        public void makeTurn(Human human) {
+    }
+    public void makeTurn(Human human) {
+        for (int i = 0; i < getOrganismCount(); i++) {
+            if (!organisms[i].isDead()) {
+                organisms[i].action(this);
+            }
+        }
+        for (int i = 0; i < getOrganismCount(); i++) {
+            if (organisms[i].isDead()) {
+                organismKilled(organisms[i]);
+            }
+        }
 
+        updateBoard();
+        drawWorld();
+        System.out.println("\nPRESS ANY KEY FOR NEXT ROUND");
+        System.out.println("OR 'Q' TO SAVE GAME : 'W' FOR LOADING THE SAVE");
+        report.reportOfTheTurn();
+
+        Scanner scanner = new Scanner(System.in);
+        char input = scanner.next().charAt(0);
+        switch (input) {
+            case Defines.SAVE_GAME:
+                saveGame(human, human.getSuperpowerActive(), human.getSuperpowerCooldown(), human.getSuperpowerTurnsLeft());
+                break;
+            case Defines.LOAD_GAME:
+                loadGame();
+                break;
+            default:
+                break;
+        }
+    }
+    public void startSimulation() {
+        clearWorldBoard();
+        int[] coords = new int[Defines.NUM_OF_COORDINATES];
+        getRandomCoords(coords);
+        // Creating human, because there is always just one
+        Human human = new Human(this, coords[0], coords[1]);
+        addOrganism(human);
+
+        char[] organismChars = {'W', 'S', 'F', 'T', 'A', 'G', 'M', 'P', 'J', 'B'};
+        for (int i = 0; i < Defines.NUM_OF_ORGANISMS; i++) {
+            // Adding 2-4 specimen of all other organisms
+            int numOfSpecimen = new Random().nextInt(3) + 2;
+
+            for (int j = 0; j < numOfSpecimen; j++) {
+                // Putting new organism in a random empty cell
+                while (findOpponent(coords[0], coords[1])) {
+                    getRandomCoords(coords);
+                }
+                if (i >= Defines.NUM_OF_ANIMALS) {
+                    createPlant(organismChars[i], coords[0], coords[1]);
+                } else {
+                    createAnimal(organismChars[i], coords[0], coords[1]);
+                }
+            }
+
+        }
+
+        updateBoard();
+        drawWorld();
+        System.out.println("\nPRESS ANY KEY TO START");
+        report.reportOfTheTurn();
+
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine(); // Wait for user to press any key
+
+        while (true) {
+            makeTurn(human);
         }
     }
 }
