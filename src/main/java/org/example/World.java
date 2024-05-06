@@ -1,5 +1,10 @@
 package org.example;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
+import java.util.Scanner;
 public class World {
     private final int n, m;
     private char[][] board;
@@ -268,20 +273,48 @@ public class World {
                 if (attacker.getStrength() > opponent.getStrength()) {
                     organismKilled(opponent);
                     report.fightReport(attacker.getOrganismName(), opponent.getOrganismName());
-                } else {
+                }
+                else {
                     organismKilled(attacker);
                     report.fightReport(opponent.getOrganismName(), attacker.getOrganismName());
                 }
-            } else {
+            }
+            else {
                 organismKilled(opponent);
                 report.fightReport(attacker.getOrganismName(), opponent.getOrganismName());
             }
-        } else if (attacker.getX() == opponent.getX() && attacker.getY() == opponent.getY()) {
+        }
+        else if (attacker.getX() == opponent.getX() && attacker.getY() == opponent.getY()) {
             attacker.setX(attacker.getX() - dx);
             attacker.setY(attacker.getY() - dy);
-            if (attacker.draw() == opponent.draw()) { // multiplication
+            if (attacker.draw() == opponent.draw()) {
                 multiplication(attacker, opponent);
             }
         }
+    }
+    public void getRandomCoords(int[] coords) {
+        coords[0] = new Random().nextInt(Defines.WORLD_N);
+        coords[1] = new Random().nextInt(Defines.WORLD_M);
+    }
+    public void saveGame(Human human, boolean spActive, int spCooldown, int spTurnsLeft) {
+        try (FileWriter gameState = new FileWriter("gameState.txt")) {
+            gameState.write(getOrganismCount() + "\n");
+            for (int i = 0; i < getOrganismCount(); i++) {
+                gameState.write(organisms[i].draw() + " " + organisms[i].getAge() + " " +
+                        organisms[i].getInitiative() + " " + organisms[i].getStrength() + " " +
+                        organisms[i].getX() + " " + organisms[i].getY());
+                if (organisms[i].getOrganismName().equals("Human")) {
+                    gameState.write(" " + spActive + " " + spCooldown + " " + spTurnsLeft);
+                }
+                gameState.write("\n");
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void loadGame() {
+        organismsClear();
+
     }
 }
