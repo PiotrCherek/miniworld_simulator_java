@@ -76,4 +76,8 @@ public abstract class Animal extends Organism {
             }
         }
     }
+    @Override
+    public boolean collision(World world, Organism organism) {
+        return organism.draw() != this.draw(); // multiplication
+    }
 }
