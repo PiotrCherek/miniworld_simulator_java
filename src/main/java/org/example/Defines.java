@@ -15,15 +15,24 @@ public class Defines {
     public static final char EMPTY_SPACE_CHAR = '+';
     public static final int SAVE_GAME = 113; // letter q
     public static final int LOAD_GAME = 119; // letter w
+    public static final char HUMAN_CHAR = 'H';
+    public static final int UP = 0;
+    public static final int DOWN = 1;
+    public static final int LEFT = 2;
+    public static final int RIGHT = 3;
+    public static final int LEFT_UP = 4;
+    public static final int LEFT_DOWN = 5;
+    public static final int RIGHT_UP = 6;
+    public static final int RIGHT_DOWN = 7;
 
-    public enum Directions {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT,
-        LEFT_UP,
-        LEFT_DOWN,
-        RIGHT_UP,
-        RIGHT_DOWN
-    }
+//    public enum Directions {
+//        UP,
+//        DOWN,
+//        LEFT,
+//        RIGHT,
+//        LEFT_UP,
+//        LEFT_DOWN,
+//        RIGHT_UP,
+//        RIGHT_DOWN
+//    }
 }

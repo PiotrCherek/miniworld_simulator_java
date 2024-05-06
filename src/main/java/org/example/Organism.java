@@ -1,5 +1,5 @@
 package org.example;
-public class Organism {
+public abstract class Organism {
     private int strength;
     private int initiative;
     private int x, y;

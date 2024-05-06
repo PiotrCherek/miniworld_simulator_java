@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.NoSuchFileException;
 import java.util.Random;
 import java.util.Scanner;
 public class World {
@@ -309,12 +310,56 @@ public class World {
                 gameState.write("\n");
             }
         }
-        catch (IOException e) {
-            e.printStackTrace();
+        catch (IOException exc) {
+            exc.printStackTrace();
         }
     }
     public void loadGame() {
         organismsClear();
+        this.organismCount = 0;
+        try {
+            File gameFile = new File("gameState.txt");
+            Scanner gameState = new Scanner(gameFile);
+            int numOfOrganisms = gameState.nextInt();
+            gameState.nextLine();
 
+            char organismChar;
+            int age, initiative, strength, x, y;
+            for (int i = 0; i < numOfOrganisms; i++) {
+                organismChar = gameState.next().charAt(0);
+                age = gameState.nextInt();
+                initiative = gameState.nextInt();
+                strength = gameState.nextInt();
+                x = gameState.nextInt();
+                y = gameState.nextInt();
+                if (organismChar == Defines.HUMAN_CHAR) {
+                    Human human = new Human(this, x, y);
+                    human.setInitiative(initiative);
+                    human.setStrenght(strenght);
+                    human.setAge(age);
+                    boolean superpowerActive = gameState.nextBoolean();
+                    int superpowerCooldown = gameState.nextInt();
+                    int superpowerTurnsLeft = gameState.nextInt();
+                    human.setSuperpowerActive(superpowerActive);
+                    human.setSuperpowerCooldown(superpowerCooldown);
+                    human.setSuperpowerTurnsLeft(superpowerTurnsLeft);
+                    addOrganism(human);
+                }
+                else {
+                    Organism newOrganism = createOrganism(organismChar, x, y);
+                    newOrganism.setInitiative(initiative);
+                    newOrganism.setStrength(strength);
+                    newOrganism.setAge(age);
+                    addOrganism(newOrganism);
+                }
+            }
+            gameState.close();
+        }
+        catch (FileNotFoundException exc) {
+            exc.printStackTrace();
+        }
+        public void makeTurn(Human human) {
+
+        }
     }
 }
