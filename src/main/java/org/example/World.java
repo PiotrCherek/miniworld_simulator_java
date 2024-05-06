@@ -1,23 +1,286 @@
 package org.example;
-
+import java.util.Random;
 public class World {
     private final int n, m;
     private char[][] board;
-    //private Organism[] organisms;
-    //private int organismCount;
-    //private Report report;
+    private Organism[] organisms;
+    private int organismCount;
+    private Report report;
     public World() {
         this.n = Defines.WORLD_N;
         this.m = Defines.WORLD_M;
         this.board = new char[Defines.WORLD_N][Defines.WORLD_M];
-        //this.organisms = new Organism[Defines.MAX_AMOUNT_OF_ORGANISMS];
-        //this.organismCount = 0;
-        //this.report = new Report();
+        this.organisms = new Organism[Defines.MAX_AMOUNT_OF_ORGANISMS];
+        this.organismCount = 0;
+        this.report = new Report();
+    }
+    public void organismsClear() {
+        for (int i=0; i<Defines.MAX_AMOUNT_OF_ORGANISMS; i++) {
+            organisms[i] = null;
+        }
+    }
+    public int getOrganismCount() {
+        return this.organismCount;
+    }
+    public Report getReportPTR() {
+        return report;
     }
     public void clearWorldBoard() {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 board[i][j] = Defines.EMPTY_SPACE_CHAR;
+            }
+        }
+    }
+    public boolean worldPositionValid(int x, int y) {
+        if (x < 0 || x >= Defines.WORLD_N) {
+            return false;
+        }
+        if (y < 0 || y >= Defines.WORLD_M) {
+            return false;
+        }
+        return true;
+    }
+    public void updateBoard() {
+        clearWorldBoard();
+        for (int i = 0; i < getOrganismCount(); i++) {
+            int col = organisms[i].getX();
+            int row = organisms[i].getY();
+            if (worldPositionValid(col, row) && !organisms[i].isDead()) {
+                board[row][col] = organisms[i].draw();
+            }
+        }
+    }
+    public void organismCountIncrease() {
+        if (this.organismCount < Defines.MAX_AMOUNT_OF_ORGANISMS - 1) {
+            this.organismCount++;
+        }
+    }
+    public void organismCountDecrease() {
+        if (this.organismCount > 0) {
+            this.organismCount--;
+        }
+    }
+    public boolean findOpponent(int x, int y) {
+        for (int i = 0; i < getOrganismCount(); i++) {
+            int tempX = organisms[i].getX();
+            int tempY = organisms[i].getY();
+            if (tempX == x && tempY == y) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean findOpponent(int x, int y, Organism opponent, Organism currentOrganism) {
+        for (int i = 0; i < getOrganismCount(); i++) {
+            int tempX = organisms[i].getX();
+            int tempY = organisms[i].getY();
+            if (tempX == x && tempY == y && organisms[i] != currentOrganism) {
+                opponent = organisms[i];
+                return true;
+            }
+        }
+        return false;
+    }
+    public int[] getFreeNeighbouringCell(Organism organism) {
+        int[][] FreeCells = new int[Defines.NUM_OF_DIRECTIONS][Defines.NUM_OF_COORDINATES];
+        int numOfFreeCells = 0;
+        int x = organism.getX();
+        int y = organism.getY();
+        //Organism temp;
+
+        for (int dx = -1; dx <= 1; dx++) {
+            for (int dy = -1; dy <= 1; dy++) {
+                if (dx == 0 && dy == 0) {
+                    continue;
+                }
+                else if (worldPositionValid(x + dx, y + dy)) {
+                    if (!findOpponent(x + dx, y + dy)) {
+                        FreeCells[numOfFreeCells][0] = x + dx;
+                        FreeCells[numOfFreeCells][1] = y + dy;
+                        numOfFreeCells++;
+                    }
+                }
+            }
+        }
+
+        int[] coords = new int[Defines.NUM_OF_COORDINATES];
+        if (numOfFreeCells == 0) {
+            coords[0] = -1;
+            coords[1] = -1;
+            return coords;
+        }
+        int index = new Random().nextInt(numOfFreeCells);
+        coords[0] = FreeCells[index][0];
+        coords[1] = FreeCells[index][1];
+        return coords;
+    }
+    public void addOrganism(Organism newOrganism) {
+        report.spawnReport(newOrganism.getOrganismName());
+        int index = getOrganismCount() - 1;
+        int newOrganismInitiative = newOrganism.getInitiative();
+        while (index >= 0) {
+            int currentOrganismInitiative = organisms[index].getInitiative();
+            if (currentOrganismInitiative >= newOrganismInitiative) {
+                break;
+            }
+            organisms[index + 1] = organisms[index];
+            index--;
+        }
+        organisms[index + 1] = newOrganism;
+        organismCountIncrease();
+    }
+    public void createPlant(char plantChar, int x, int y) {
+        if (!worldPositionValid(x, y)) {
+            return;
+        }
+        Organism newPlant = null;
+        switch (plantChar) {
+            case 'G':
+                newPlant = new Grass(this, x, y);
+                break;
+            case 'M':
+                newPlant = new SowThistle(this, x, y);
+                break;
+            case 'P':
+                newPlant = new Guarana(this, x, y);
+                break;
+            case 'J':
+                newPlant = new Belladonna(this, x, y);
+                break;
+            case 'B':
+                newPlant = new SosnowskyHogweed(this, x, y);
+                break;
+            default:
+                break;
+        }
+        if (newPlant != null) {
+            addOrganism(newPlant);
+        }
+    }
+    public void createAnimal(char animalChar, int x, int y) {
+        if (!worldPositionValid(x, y)) {
+            return;
+        }
+        Organism newAnimal = null;
+        switch (animalChar) {
+            case 'W':
+                newAnimal = new Wolf(this, x, y);
+                break;
+            case 'S':
+                newAnimal = new Sheep(this, x, y);
+                break;
+            case 'F':
+                newAnimal = new Fox(this, x, y);
+                break;
+            case 'T':
+                newAnimal = new Turtle(this, x, y);
+                break;
+            case 'A':
+                newAnimal = new Antelope(this, x, y);
+                break;
+            default:
+                break;
+        }
+        if (newAnimal != null) {
+            addOrganism(newAnimal);
+        }
+    }
+    public Organism createOrganism(char organismChar, int x, int y) {
+        Organism newOrganism = null;
+        switch (organismChar) {
+            case 'W':
+                newOrganism = new Wolf(this, x, y);
+                break;
+            case 'S':
+                newOrganism = new Sheep(this, x, y);
+                break;
+            case 'F':
+                newOrganism = new Fox(this, x, y);
+                break;
+            case 'T':
+                newOrganism = new Turtle(this, x, y);
+                break;
+            case 'A':
+                newOrganism = new Antelope(this, x, y);
+                break;
+            case 'G':
+                newOrganism = new Grass(this, x, y);
+                break;
+            case 'M':
+                newOrganism = new SowThistle(this, x, y);
+                break;
+            case 'P':
+                newOrganism = new Guarana(this, x, y);
+                break;
+            case 'J':
+                newOrganism = new Belladonna(this, x, y);
+                break;
+            case 'B':
+                newOrganism = new SosnowskyHogweed(this, x, y);
+                break;
+            default:
+                break;
+        }
+        return newOrganism;
+    }
+    public boolean isAnimal(Organism organism) {
+        char organismChar = organism.draw();
+        return switch (organismChar) {
+            case 'H', 'W', 'S', 'F', 'T', 'A' -> true;
+            default -> false;
+        };
+    }
+    public void drawWorld() {
+        System.out.println(Defines.AUTHOR + "\t" + Defines.INDEX + "\n");
+        for (int row = 0; row < n; row++) {
+            for (int col = 0; col < m; col++) {
+                System.out.print(board[row][col] + " ");
+            }
+            System.out.println();
+        }
+    }
+    public void organismKilled(Organism deadOrganism) {
+        boolean organismFound = false;
+        for (int i = 0; i < getOrganismCount(); i++) {
+            if (organisms[i] == deadOrganism) {
+                organismFound = true;
+            }
+            if (organismFound) {
+                organisms[i] = organisms[i + 1];
+            }
+        }
+        organismCountDecrease();
+    }
+    public void multiplication(Organism attacker, Organism opponent) {
+        int[] coords = getFreeNeighbouringCell(opponent);
+        if (coords[0] == -1 || coords[1] == -1) {
+            coords = getFreeNeighbouringCell(attacker);
+            if (coords[0] == -1 || coords[1] == -1) {
+                return;
+            }
+        }
+        createAnimal(opponent.draw(), coords[0], coords[1]);
+    }
+    public void handleCollision(Organism attacker, Organism opponent, int dx, int dy) {
+        if (attacker.collision(this, opponent) && opponent.collision(this, attacker)) {
+            if (attacker.getStrength() != opponent.getStrength()) {
+                if (attacker.getStrength() > opponent.getStrength()) {
+                    organismKilled(opponent);
+                    report.fightReport(attacker.getOrganismName(), opponent.getOrganismName());
+                } else {
+                    organismKilled(attacker);
+                    report.fightReport(opponent.getOrganismName(), attacker.getOrganismName());
+                }
+            } else {
+                organismKilled(opponent);
+                report.fightReport(attacker.getOrganismName(), opponent.getOrganismName());
+            }
+        } else if (attacker.getX() == opponent.getX() && attacker.getY() == opponent.getY()) {
+            attacker.setX(attacker.getX() - dx);
+            attacker.setY(attacker.getY() - dy);
+            if (attacker.draw() == opponent.draw()) { // multiplication
+                multiplication(attacker, opponent);
             }
         }
     }
