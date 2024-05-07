@@ -10,7 +10,7 @@ public class World {
     private final int n, m;
     private char[][] board;
     private Organism[] organisms;
-    private int organismCount;
+    private int organismCount = 0;
     private Report report;
     public World() {
         this.n = Defines.WORLD_N;

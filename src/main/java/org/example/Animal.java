@@ -14,9 +14,9 @@ public abstract class Animal extends Organism {
         if (world.worldPositionValid(x + dx, y + dy)) {
             animal.changeX(dx);
             animal.changeY(dy);
-            Organism opponent = null;
-            if (world.findOpponent(x + dx, y + dy)) {
-                world.handleCollision(animal, opponent, dx, dy);
+            Organism[] opponent = new Organism[1];
+            if (world.findOpponent(x + dx, y + dy, opponent, this)) {
+                world.handleCollision(animal, opponent[0], dx, dy);
             }
             directionChanged[0] = true;
         }
@@ -24,12 +24,12 @@ public abstract class Animal extends Organism {
     public void moveToFreeCell(World world, Animal animal) {
         int x = animal.getX();
         int y = animal.getY();
-        boolean moved = false;
+        boolean[] moved = new boolean[1];
         for (int dx = -1; dx <= 1; dx++) {
             for (int dy = -1; dy <= 1; dy++) {
                 if (!world.findOpponent(x + dx, y + dy)) {
-                    move(world, animal, x, y, dx, dy, new boolean[]{moved});
-                    if (moved) {
+                    move(world, animal, x, y, dx, dy, moved);
+                    if (moved[0]) {
                         return;
                     }
                 }

@@ -61,23 +61,23 @@ public class Human extends Animal { // HUMAN SUPERPOWER IS PURIFICATION
         char input = scanner.next().charAt(0);
         int tempX = getX();
         int tempY = getY();
-        boolean[] directionChanged = new boolean[0];
-        directionChanged[0] = false;
+        boolean[] directionChanged = new boolean[1];
+        //directionChanged[0] = false;
 
         switch (input) {
-            case 'W':
+            case 'w':
                 move(world, this, tempX, tempY, 0, -1, directionChanged);
                 break;
-            case 'S':
+            case 's':
                 move(world, this, tempX, tempY, 0, 1, directionChanged);
                 break;
-            case 'A':
+            case 'a':
                 move(world, this, tempX, tempY, -1, 0, directionChanged);
                 break;
-            case 'D':
+            case 'd':
                 move(world, this, tempX, tempY, 1, 0, directionChanged);
                 break;
-            case 'P':
+            case 'p':
                 if (getSuperpowerCooldown() == 0) {
                     setSuperpowerActive(true);
                     setSuperpowerTurnsLeft(SUPERPOWER_COOLDOWN);
