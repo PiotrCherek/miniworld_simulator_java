@@ -15,13 +15,16 @@ public class World {
     private Organism[] organisms;
     private int organismCount = 0;
     private Report report;
-    public World() {
+    private Frame frame;
+    public World() throws UnsupportedLookAndFeelException {
         this.n = Defines.WORLD_N;
         this.m = Defines.WORLD_M;
         this.board = new char[Defines.WORLD_N][Defines.WORLD_M];
         this.organisms = new Organism[Defines.MAX_AMOUNT_OF_ORGANISMS];
         this.organismCount = 0;
         this.report = new Report();
+        UIManager.setLookAndFeel(new FlatDarculaLaf());
+        this.frame = new Frame(this);
     }
     public void organismsClear() {
         for (int i=0; i<Defines.MAX_AMOUNT_OF_ORGANISMS; i++) {
@@ -248,14 +251,15 @@ public class World {
 //            }
 //            System.out.println();
 //        }
+        frame.showInterface();
 //        Frame frame = new Frame(this);
-        try {
-            Frame frame = new Frame(this);
-            frame.showInterface();
-        }
-        catch (UnsupportedLookAndFeelException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            //Frame frame = new Frame(this);
+//            frame.showInterface();
+//        }
+//        catch (UnsupportedLookAndFeelException e) {
+//            e.printStackTrace();
+//        }
 //        frame.showInterface();
 //        try {
 //            frame.showInterface();

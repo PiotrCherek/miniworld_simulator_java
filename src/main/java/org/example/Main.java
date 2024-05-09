@@ -8,12 +8,12 @@ import javax.swing.plaf.synth.SynthLookAndFeel;
 
 public class Main {
     public static void main(String[] args) throws UnsupportedLookAndFeelException {
-        UIManager.setLookAndFeel(new FlatDarculaLaf());
+        //UIManager.setLookAndFeel(new FlatDarculaLaf());
         World world = new World();
         world.startSimulation();
 
-        Frame frame = new Frame(world);
-        frame.showInterface();
+//        Frame frame = new Frame(world);
+//        frame.showInterface();
         //frame.grid();
     }
 }

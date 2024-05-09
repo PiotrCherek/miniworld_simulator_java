@@ -38,7 +38,7 @@ public class Defines {
         GUARANA("Guarana", new Color(200, 255, 100)),
         BELLADONNA("Belladonna", new Color(123, 123, 255)),
         SOSNOWSKY_HOGWEED("Sosnowsky hogweed", new Color(255, 50, 100)),
-        DEFAULT("Default", new Color(255, 255, 255));
+        DEFAULT("Default", new Color(50, 50, 50));
 
         private final String organismName;
         private final Color color;

@@ -58,10 +58,12 @@ public class Frame extends JFrame {
         for (int row = 0; row < Defines.WORLD_N; row++) {
             for (int col = 0; col < Defines.WORLD_M; col++) {
                 //System.out.print(board[row][col] + " ");
-                JButton button = new JButton();
+//                JButton button = new JButton();
                 char organismChar = world.getBoardCell(row, col);
-                button.setBackground(getOrganismColor(organismChar));
-                boardPanel.add(button);
+//                button.setBackground(getOrganismColor(organismChar));
+
+                boardField field = new boardField(world, row, col, organismChar);
+                boardPanel.add(field);
             }
         }
 
@@ -81,9 +83,11 @@ public class Frame extends JFrame {
             legendPanel.add(button);
         }
 
-        mainPanel.add(boardPanel);
-        mainPanel.add(legendPanel);
-        this.add(mainPanel);
+        //mainPanel.add(boardPanel);
+        //mainPanel.add(legendPanel);
+        //this.add(mainPanel);
+        this.add(boardPanel);
+        this.add(legendPanel);
         this.setVisible(true);
     }
 }
