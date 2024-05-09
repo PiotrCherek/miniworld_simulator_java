@@ -1,4 +1,5 @@
 package org.example;
+import java.awt.Color;
 
 public class Defines {
     public static final String AUTHOR = "PIOTR CHEREK";
@@ -25,14 +26,31 @@ public class Defines {
     public static final int RIGHT_UP = 6;
     public static final int RIGHT_DOWN = 7;
 
-//    public enum Directions {
-//        UP,
-//        DOWN,
-//        LEFT,
-//        RIGHT,
-//        LEFT_UP,
-//        LEFT_DOWN,
-//        RIGHT_UP,
-//        RIGHT_DOWN
-//    }
+    public enum organismColors {
+        HUMAN("Human", new Color(255, 0, 0)),
+        WOLF("Wolf", new Color(0, 255, 0)),
+        SHEEP("Sheep", new Color(0, 0, 255)),
+        FOX("Fox", new Color(100, 0, 0)),
+        TURTLE("Turtle", new Color(0, 100, 0)),
+        ANTELOPE("Antelope", new Color(0, 0, 100)),
+        GRASS("Grass", new Color(100, 100, 0)),
+        SOW_THISTLE("Sow thistle", new Color(0, 100, 100)),
+        GUARANA("Guarana", new Color(200, 255, 100)),
+        BELLADONNA("Belladonna", new Color(123, 123, 255)),
+        SOSNOWSKY_HOGWEED("Sosnowsky hogweed", new Color(255, 50, 100)),
+        DEFAULT("Default", new Color(255, 255, 255));
+
+        private final String organismName;
+        private final Color color;
+        organismColors(String organismName, Color color) {
+            this.organismName = organismName;
+            this.color = color;
+        }
+        public String getOrganismName() {
+            return organismName;
+        }
+        public Color getColor() {
+            return color;
+        }
+    }
 }

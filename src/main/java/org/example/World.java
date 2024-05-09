@@ -1,4 +1,7 @@
 package org.example;
+import com.formdev.flatlaf.FlatDarculaLaf;
+
+import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -238,13 +241,32 @@ public class World {
         };
     }
     public void drawWorld() {
-        System.out.println(Defines.AUTHOR + "\t" + Defines.INDEX + "\n");
-        for (int row = 0; row < n; row++) {
-            for (int col = 0; col < m; col++) {
-                System.out.print(board[row][col] + " ");
-            }
-            System.out.println();
+//        System.out.println(Defines.AUTHOR + "\t" + Defines.INDEX + "\n");
+//        for (int row = 0; row < n; row++) {
+//            for (int col = 0; col < m; col++) {
+//                System.out.print(board[row][col] + " ");
+//            }
+//            System.out.println();
+//        }
+//        Frame frame = new Frame(this);
+        try {
+            Frame frame = new Frame(this);
+            frame.showInterface();
         }
+        catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
+//        frame.showInterface();
+//        try {
+//            frame.showInterface();
+//        }
+//        catch (UnsupportedLookAndFeelException e) {
+//            e.printStackTrace();
+//        }
+
+    }
+    public char getBoardCell(int row, int col) {
+        return this.board[row][col];
     }
     public void organismKilled(Organism deadOrganism) {
         boolean organismFound = false;
