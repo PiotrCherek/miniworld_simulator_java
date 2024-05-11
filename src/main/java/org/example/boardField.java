@@ -20,7 +20,6 @@ public class boardField extends JButton {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent event) {
-                System.out.println("BUTTON CLICKED");
                 organismMenu();
             }
         });

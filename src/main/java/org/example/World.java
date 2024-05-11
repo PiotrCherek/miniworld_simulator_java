@@ -396,24 +396,25 @@ public class World {
             }
         }
 
+        clearBoardFields();
         updateBoard();
         drawWorld();
         System.out.println("\nPRESS ANY KEY FOR NEXT ROUND");
         System.out.println("OR 'Q' TO SAVE GAME : 'W' FOR LOADING THE SAVE");
         report.reportOfTheTurn();
 
-        Scanner scanner = new Scanner(System.in);
-        char input = scanner.next().charAt(0);
-        switch (input) {
-            case Defines.SAVE_GAME:
-                saveGame(human, human.getSuperpowerActive(), human.getSuperpowerCooldown(), human.getSuperpowerTurnsLeft());
-                break;
-            case Defines.LOAD_GAME:
-                loadGame();
-                break;
-            default:
-                break;
-        }
+//        Scanner scanner = new Scanner(System.in);
+//        char input = scanner.next().charAt(0);
+//        switch (input) {
+//            case Defines.SAVE_GAME:
+//                saveGame(human, human.getSuperpowerActive(), human.getSuperpowerCooldown(), human.getSuperpowerTurnsLeft());
+//                break;
+//            case Defines.LOAD_GAME:
+//                loadGame();
+//                break;
+//            default:
+//                break;
+//        }
     }
     public void startSimulation() {
         clearWorldBoard();
@@ -422,6 +423,7 @@ public class World {
         // Creating human, because there is always just one
         Human human = new Human(this, coords[0], coords[1]);
         addOrganism(human);
+        frame.addHuman(human);
 
         char[] organismChars = {'W', 'S', 'F', 'T', 'A', 'G', 'M', 'P', 'J', 'B'};
         for (int i = 0; i < Defines.NUM_OF_ORGANISMS; i++) {
@@ -444,14 +446,15 @@ public class World {
 
         updateBoard();
         drawWorld();
-        System.out.println("\nPRESS ANY KEY TO START");
+        //System.out.println("\nPRESS ANY KEY TO START");
         report.reportOfTheTurn();
+        makeTurn(human);
+//
+//        Scanner scanner = new Scanner(System.in);
+//        scanner.nextLine(); // Wait for user to press any key
 
-        Scanner scanner = new Scanner(System.in);
-        scanner.nextLine(); // Wait for user to press any key
-
-        while (true) {
-            makeTurn(human);
-        }
+//        while (true) {
+//            makeTurn(human);
+//        }
     }
 }

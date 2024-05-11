@@ -10,7 +10,8 @@ public class Frame extends JFrame {
     private static final int frame_height = 700;
     private static final int mainPanel_height = frame_height;
     private static final int mainPanel_width = (int) (frame_width * 0.7);
-    World world = null;
+    Human human;
+    World world;
 
     Frame(World world) throws UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel(new FlatDarculaLaf());
@@ -22,6 +23,9 @@ public class Frame extends JFrame {
         this.setLayout(null);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+    }
+    public void addHuman(Human human) {
+        this.human = human;
     }
     public Color getOrganismColor(char organismChar) {
         //Organism temp = new Organism(this.world);
@@ -83,11 +87,29 @@ public class Frame extends JFrame {
             legendPanel.add(button);
         }
 
+        JPanel controlPanel = new JPanel();
+        int controlPanelWidth = legendPanelWidth * 2;
+        int controlPanelHeight = legendPanelHeight/4;//(int)(legendPanelHeight * 1.35);
+        int controlPanelX = legendPanelX + legendPanelWidth + 20;
+        int controlPanelY = boardPanelY/2;
+        controlPanel.setBounds(controlPanelX, controlPanelY, controlPanelWidth, controlPanelHeight);
+        controlPanel.setLayout(new GridLayout(1, 1));
+        controlButton nextTurnButton = new controlButton(controlButton.controlButtonType.NEXT_TURN, human, world);
+        controlButton saveGameButton = new controlButton(controlButton.controlButtonType.SAVE_GAME, human, world);
+        controlButton loadGameButton = new controlButton(controlButton.controlButtonType.LOAD_GAME, human, world);
+        controlPanel.add(nextTurnButton);
+        controlPanel.add(saveGameButton);
+        controlPanel.add(loadGameButton);
+        //controlPanel.setBackground(Color.blue);
+
+
+
         //mainPanel.add(boardPanel);
         //mainPanel.add(legendPanel);
         //this.add(mainPanel);
         this.add(boardPanel);
         this.add(legendPanel);
+        this.add(controlPanel);
         this.setVisible(true);
     }
 }

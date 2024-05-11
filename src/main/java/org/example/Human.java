@@ -97,6 +97,7 @@ public class Human extends Animal { // HUMAN SUPERPOWER IS PURIFICATION
                 setSuperpowerCooldown(getSuperpowerCooldown() - 1);
             }
         }
+        //world.makeTurn(this);
     }
     @Override
     public char draw() {
