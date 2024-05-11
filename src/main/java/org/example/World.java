@@ -244,30 +244,21 @@ public class World {
         };
     }
     public void drawWorld() {
-//        System.out.println(Defines.AUTHOR + "\t" + Defines.INDEX + "\n");
-//        for (int row = 0; row < n; row++) {
-//            for (int col = 0; col < m; col++) {
-//                System.out.print(board[row][col] + " ");
-//            }
-//            System.out.println();
-//        }
+        System.out.println(Defines.AUTHOR + "\t" + Defines.INDEX + "\n");
+        for (int row = 0; row < n; row++) {
+            for (int col = 0; col < m; col++) {
+                System.out.print(board[row][col] + " ");
+            }
+            System.out.println();
+        }
         frame.showInterface();
-//        Frame frame = new Frame(this);
 //        try {
-//            //Frame frame = new Frame(this);
+//            frame = new Frame(this);
 //            frame.showInterface();
 //        }
-//        catch (UnsupportedLookAndFeelException e) {
-//            e.printStackTrace();
+//        catch (UnsupportedLookAndFeelException except) {
+//            except.printStackTrace();
 //        }
-//        frame.showInterface();
-//        try {
-//            frame.showInterface();
-//        }
-//        catch (UnsupportedLookAndFeelException e) {
-//            e.printStackTrace();
-//        }
-
     }
     public char getBoardCell(int row, int col) {
         return this.board[row][col];
@@ -396,9 +387,10 @@ public class World {
             }
         }
 
-        clearBoardFields();
+        //frame.clearBoardFields();
         updateBoard();
         drawWorld();
+        //frame.showInterface();
         System.out.println("\nPRESS ANY KEY FOR NEXT ROUND");
         System.out.println("OR 'Q' TO SAVE GAME : 'W' FOR LOADING THE SAVE");
         report.reportOfTheTurn();
@@ -446,6 +438,7 @@ public class World {
 
         updateBoard();
         drawWorld();
+        //frame.showInterface();
         //System.out.println("\nPRESS ANY KEY TO START");
         report.reportOfTheTurn();
         makeTurn(human);

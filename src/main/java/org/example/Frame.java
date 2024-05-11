@@ -13,8 +13,8 @@ public class Frame extends JFrame {
     Human human;
     World world;
 
-    Frame(World world) throws UnsupportedLookAndFeelException {
-        UIManager.setLookAndFeel(new FlatDarculaLaf());
+    Frame(World world) {
+        //UIManager.setLookAndFeel(new FlatDarculaLaf());
         this.world = world;
         this.setSize(frame_width, frame_height);
         this.setTitle("MINIWORLD");
@@ -27,25 +27,42 @@ public class Frame extends JFrame {
     public void addHuman(Human human) {
         this.human = human;
     }
-    public Color getOrganismColor(char organismChar) {
-        //Organism temp = new Organism(this.world);
-        return switch (organismChar) {
-            case 'H' -> Defines.organismColors.HUMAN.getColor();//new Color(255,0,0);//"Human";
-            case 'W' -> Defines.organismColors.WOLF.getColor();//new Color(0,255,0);
-            case 'S' -> Defines.organismColors.SHEEP.getColor();//new Color(0,0,255);
-            case 'F' -> Defines.organismColors.FOX.getColor();//new Color(100,0,0);
-            case 'T' -> Defines.organismColors.TURTLE.getColor();//new Color(0,100,0);
-            case 'A' -> Defines.organismColors.ANTELOPE.getColor();//new Color(0,0,100);
-            case 'G' -> Defines.organismColors.GRASS.getColor();//new Color(100,100,0);
-            case 'M' -> Defines.organismColors.SOW_THISTLE.getColor();//new Color(0,100,100);
-            case 'P' -> Defines.organismColors.GUARANA.getColor();//new Color(200,255,100);
-            case 'J' -> Defines.organismColors.BELLADONNA.getColor();//new Color(123,123,255);
-            case 'B' -> Defines.organismColors.SOSNOWSKY_HOGWEED.getColor();//new Color(255,50,100);
-            default -> Defines.organismColors.DEFAULT.getColor();//new Color(255,255,255);
-        };
-
-    }
+//    public void clearBoardFields() {
+//
+//    }
+//    public Color getOrganismColor(char organismChar) {
+//        //Organism temp = new Organism(this.world);
+//        return switch (organismChar) {
+//            case 'H' -> Defines.organismColors.HUMAN.getColor();//new Color(255,0,0);//"Human";
+//            case 'W' -> Defines.organismColors.WOLF.getColor();//new Color(0,255,0);
+//            case 'S' -> Defines.organismColors.SHEEP.getColor();//new Color(0,0,255);
+//            case 'F' -> Defines.organismColors.FOX.getColor();//new Color(100,0,0);
+//            case 'T' -> Defines.organismColors.TURTLE.getColor();//new Color(0,100,0);
+//            case 'A' -> Defines.organismColors.ANTELOPE.getColor();//new Color(0,0,100);
+//            case 'G' -> Defines.organismColors.GRASS.getColor();//new Color(100,100,0);
+//            case 'M' -> Defines.organismColors.SOW_THISTLE.getColor();//new Color(0,100,100);
+//            case 'P' -> Defines.organismColors.GUARANA.getColor();//new Color(200,255,100);
+//            case 'J' -> Defines.organismColors.BELLADONNA.getColor();//new Color(123,123,255);
+//            case 'B' -> Defines.organismColors.SOSNOWSKY_HOGWEED.getColor();//new Color(255,50,100);
+//            default -> Defines.organismColors.DEFAULT.getColor();//new Color(255,255,255);
+//        };
+//
+//    }
+//    private void clearInterface() {
+//        if (boardPanel != null) {
+//            this.remove(boardPanel);
+//        }
+//        if (legendPanel != null) {
+//            this.remove(legendPanel);
+//        }
+//        if (controlPanel != null) {
+//            this.remove(controlPanel);
+//        }
+//    }
     public void showInterface() {
+        //clearInterface();
+        Container pane = this.getContentPane();
+        pane.removeAll();
         JPanel mainPanel = new JPanel();
         mainPanel.setBackground(Color.gray);
         mainPanel.setLayout(null);
@@ -65,11 +82,11 @@ public class Frame extends JFrame {
 //                JButton button = new JButton();
                 char organismChar = world.getBoardCell(row, col);
 //                button.setBackground(getOrganismColor(organismChar));
-
                 boardField field = new boardField(world, row, col, organismChar);
                 boardPanel.add(field);
             }
         }
+        this.add(boardPanel);
 
         JPanel legendPanel = new JPanel();
         int legendPanelWidth = 200;
@@ -79,13 +96,12 @@ public class Frame extends JFrame {
         legendPanel.setBounds(legendPanelX, legendPanelY, legendPanelWidth, legendPanelHeight);
         legendPanel.setLayout(new GridLayout(0, 1));
         for (Defines.organismColors color : Defines.organismColors.values()) {
-            //System.out.println(color.getOrganismName() + ": " + color.getColor());
             JButton button = new JButton();
             button.setText(color.getOrganismName());
             button.setBackground(color.getColor());
-            //button.setPreferredSize(new Dimension(legendPanelWidth - 5, legendPanelHeight / Defines.NUM_OF_ORGANISMS));
             legendPanel.add(button);
         }
+        this.add(legendPanel);
 
         JPanel controlPanel = new JPanel();
         int controlPanelWidth = legendPanelWidth * 2;
@@ -100,6 +116,7 @@ public class Frame extends JFrame {
         controlPanel.add(nextTurnButton);
         controlPanel.add(saveGameButton);
         controlPanel.add(loadGameButton);
+        this.add(controlPanel);
         //controlPanel.setBackground(Color.blue);
 
 
@@ -107,9 +124,6 @@ public class Frame extends JFrame {
         //mainPanel.add(boardPanel);
         //mainPanel.add(legendPanel);
         //this.add(mainPanel);
-        this.add(boardPanel);
-        this.add(legendPanel);
-        this.add(controlPanel);
         this.setVisible(true);
     }
 }

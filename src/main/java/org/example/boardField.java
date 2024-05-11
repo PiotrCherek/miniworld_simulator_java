@@ -16,6 +16,8 @@ public class boardField extends JButton {
         this.col = col;
         this.world = world;
         this.organismChar = organismChar;
+        //this.paintComponent(getOrganismColor(organismChar));
+        this.setBackground(getOrganismColor('+'));
         this.setBackground(getOrganismColor(organismChar));
         addMouseListener(new MouseAdapter() {
             @Override
