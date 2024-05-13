@@ -1,4 +1,6 @@
 package org.example;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Scanner;
 public class Human extends Animal { // HUMAN SUPERPOWER IS PURIFICATION
     private static final int HUMAN_STRENGTH = 5;
@@ -8,9 +10,13 @@ public class Human extends Animal { // HUMAN SUPERPOWER IS PURIFICATION
     private boolean superpowerActive = false;
     private int superpowerCooldown = 0;
     private int superpowerTurnsLeft = 0;
+    World world;
+    Frame frame;
 
-    public Human(World world, int x, int y) {
+    public Human(World world, int x, int y, Frame frame) {
         super(world, x, y);
+        this.world = world;
+        this.frame = frame;
         this.setStrength(HUMAN_STRENGTH);
         this.setInitiative(HUMAN_INITIATIVE);
     }
@@ -32,6 +38,7 @@ public class Human extends Animal { // HUMAN SUPERPOWER IS PURIFICATION
     public int getSuperpowerTurnsLeft() {
         return this.superpowerTurnsLeft;
     }
+    private boolean humansTurn = false;
     public void purification(World world) {
         int x = this.getX();
         int y = this.getY();
@@ -57,12 +64,14 @@ public class Human extends Animal { // HUMAN SUPERPOWER IS PURIFICATION
         System.out.println("SUPERPOWER: " + "COOLDOWN - " + this.getSuperpowerCooldown() + " ACTIVE TURNS LEFT - " + this.getSuperpowerTurnsLeft());
         System.out.println("HUMAN STRENGHT: " + this.getStrength());
         this.increaseAge();
-        Scanner scanner = new Scanner(System.in);
-        char input = scanner.next().charAt(0);
+        humansTurn = true;
+        char input = frame.getLastPressedKey();
+//        Scanner scanner = new Scanner(System.in);
+//        char input = scanner.next().charAt(0);
         int tempX = getX();
         int tempY = getY();
         boolean[] directionChanged = new boolean[1];
-        //directionChanged[0] = false;
+        directionChanged[0] = false;
 
         switch (input) {
             case 'w':
@@ -97,7 +106,6 @@ public class Human extends Animal { // HUMAN SUPERPOWER IS PURIFICATION
                 setSuperpowerCooldown(getSuperpowerCooldown() - 1);
             }
         }
-        //world.makeTurn(this);
     }
     @Override
     public char draw() {

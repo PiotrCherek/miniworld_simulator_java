@@ -3,15 +3,17 @@ import com.formdev.flatlaf.FlatDarculaLaf;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class Frame extends JFrame {
+public class Frame extends JFrame implements KeyListener {
     private static final int frame_width = 1200;
     private static final int frame_height = 700;
     private static final int mainPanel_height = frame_height;
     private static final int mainPanel_width = (int) (frame_width * 0.7);
     Human human;
     World world;
+    private char lastPressedKey = '\0';
 
     Frame(World world) {
         this.world = world;
@@ -22,9 +24,16 @@ public class Frame extends JFrame {
         this.setLayout(null);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+        this.setFocusable(true);
+        this.requestFocusInWindow();
+        this.addKeyListener(this);
+    }
+    public char getLastPressedKey() {
+        return lastPressedKey;
     }
     public void addHuman(Human human) {
         this.human = human;
+        //this.addKeyListener(human);
     }
     public void showInterface() {
         Container pane = this.getContentPane();
@@ -83,4 +92,14 @@ public class Frame extends JFrame {
 
         this.setVisible(true);
     }
+    @Override
+    public void keyTyped(KeyEvent e) {}
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        lastPressedKey = e.getKeyChar();
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {}
 }

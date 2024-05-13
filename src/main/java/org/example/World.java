@@ -351,7 +351,7 @@ public class World {
                 x = gameState.nextInt();
                 y = gameState.nextInt();
                 if (organismChar == Defines.HUMAN_CHAR) {
-                    human = new Human(this, x, y);
+                    human = new Human(this, x, y, frame);
                     human.setInitiative(initiative);
                     human.setStrength(strength);
                     human.setAge(age);
@@ -400,8 +400,8 @@ public class World {
         int[] coords = new int[Defines.NUM_OF_COORDINATES];
         getRandomCoords(coords);
         // Creating human, because there is always just one
-        Human human = new Human(this, coords[0], coords[1]);
-        //addOrganism(human);
+        Human human = new Human(this, coords[0], coords[1], frame);
+        addOrganism(human);
         frame.addHuman(human);
 
         char[] organismChars = {'W', 'S', 'F', 'T', 'A', 'G', 'M', 'P', 'J', 'B'};
@@ -428,7 +428,7 @@ public class World {
         //frame.showInterface();
         //System.out.println("\nPRESS ANY KEY TO START");
         report.reportOfTheTurn();
-        makeTurn(human);
+        //makeTurn(human);
 //
 //        Scanner scanner = new Scanner(System.in);
 //        scanner.nextLine(); // Wait for user to press any key
