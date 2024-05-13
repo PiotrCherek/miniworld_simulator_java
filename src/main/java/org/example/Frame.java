@@ -14,7 +14,6 @@ public class Frame extends JFrame {
     World world;
 
     Frame(World world) {
-        //UIManager.setLookAndFeel(new FlatDarculaLaf());
         this.world = world;
         this.setSize(frame_width, frame_height);
         this.setTitle("MINIWORLD");
@@ -27,42 +26,10 @@ public class Frame extends JFrame {
     public void addHuman(Human human) {
         this.human = human;
     }
-//    public void clearBoardFields() {
-//
-//    }
-//    public Color getOrganismColor(char organismChar) {
-//        //Organism temp = new Organism(this.world);
-//        return switch (organismChar) {
-//            case 'H' -> Defines.organismColors.HUMAN.getColor();//new Color(255,0,0);//"Human";
-//            case 'W' -> Defines.organismColors.WOLF.getColor();//new Color(0,255,0);
-//            case 'S' -> Defines.organismColors.SHEEP.getColor();//new Color(0,0,255);
-//            case 'F' -> Defines.organismColors.FOX.getColor();//new Color(100,0,0);
-//            case 'T' -> Defines.organismColors.TURTLE.getColor();//new Color(0,100,0);
-//            case 'A' -> Defines.organismColors.ANTELOPE.getColor();//new Color(0,0,100);
-//            case 'G' -> Defines.organismColors.GRASS.getColor();//new Color(100,100,0);
-//            case 'M' -> Defines.organismColors.SOW_THISTLE.getColor();//new Color(0,100,100);
-//            case 'P' -> Defines.organismColors.GUARANA.getColor();//new Color(200,255,100);
-//            case 'J' -> Defines.organismColors.BELLADONNA.getColor();//new Color(123,123,255);
-//            case 'B' -> Defines.organismColors.SOSNOWSKY_HOGWEED.getColor();//new Color(255,50,100);
-//            default -> Defines.organismColors.DEFAULT.getColor();//new Color(255,255,255);
-//        };
-//
-//    }
-//    private void clearInterface() {
-//        if (boardPanel != null) {
-//            this.remove(boardPanel);
-//        }
-//        if (legendPanel != null) {
-//            this.remove(legendPanel);
-//        }
-//        if (controlPanel != null) {
-//            this.remove(controlPanel);
-//        }
-//    }
     public void showInterface() {
-        //clearInterface();
         Container pane = this.getContentPane();
         pane.removeAll();
+
         JPanel mainPanel = new JPanel();
         mainPanel.setBackground(Color.gray);
         mainPanel.setLayout(null);
@@ -75,13 +42,9 @@ public class Frame extends JFrame {
         int boardPanelY = (int)((frame_height - boardPanelHeight)/2.5);
         boardPanel.setBounds(boardPanelX, boardPanelY, boardPanelWidth, boardPanelHeight);
         boardPanel.setLayout(new GridLayout(Defines.WORLD_M, Defines.WORLD_N));
-            //button.setBackground(Color.CYAN);
         for (int row = 0; row < Defines.WORLD_N; row++) {
             for (int col = 0; col < Defines.WORLD_M; col++) {
-                //System.out.print(board[row][col] + " ");
-//                JButton button = new JButton();
                 char organismChar = world.getBoardCell(row, col);
-//                button.setBackground(getOrganismColor(organismChar));
                 boardField field = new boardField(world, row, col, organismChar);
                 boardPanel.add(field);
             }
@@ -117,13 +80,7 @@ public class Frame extends JFrame {
         controlPanel.add(saveGameButton);
         controlPanel.add(loadGameButton);
         this.add(controlPanel);
-        //controlPanel.setBackground(Color.blue);
 
-
-
-        //mainPanel.add(boardPanel);
-        //mainPanel.add(legendPanel);
-        //this.add(mainPanel);
         this.setVisible(true);
     }
 }

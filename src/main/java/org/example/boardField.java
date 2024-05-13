@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Objects;
 
 public class boardField extends JButton {
     private final int row;
@@ -30,16 +31,21 @@ public class boardField extends JButton {
     private void organismMenu() {
         JPopupMenu organismMenu = new JPopupMenu();
         for (Defines.organismColors organisms : Defines.organismColors.values()) {
+            if (Objects.equals(organisms.getOrganismName(), "Human") || Objects.equals(organisms.getOrganismName(), "Default")) { continue; }
             JMenuItem organism = new JMenuItem(organisms.getOrganismName());
             organism.addActionListener(event -> {
-                String q = organisms.getOrganismName();
-                JOptionPane.showMessageDialog(boardField.this, "Selected organism: " + q + "\nCoordinates: (" + this.col + ", " + this.row + ")");
+                //String q = organisms.getOrganismName();
+                //JOptionPane.showMessageDialog(boardField.this, "Selected organism: " + q + "\nCoordinates: (" + this.col + ", " + this.row + ")");
+                freeSpace();
+                world.addOrganism(world.createOrganism(getOrganismChar(organisms.getOrganismName()), this.col, this.row));
+                world.updateBoard();
+                world.drawWorld();
             });
             organismMenu.add(organism);
         }
         organismMenu.show(this, 0, 0);
     }
-    public Color getOrganismColor(char organismChar) {
+    private Color getOrganismColor(char organismChar) {
         //Organism temp = new Organism(this.world);
         return switch (organismChar) {
             case 'H' -> Defines.organismColors.HUMAN.getColor();//new Color(255,0,0);//"Human";
@@ -55,6 +61,26 @@ public class boardField extends JButton {
             case 'B' -> Defines.organismColors.SOSNOWSKY_HOGWEED.getColor();//new Color(255,50,100);
             default -> Defines.organismColors.DEFAULT.getColor();//new Color(255,255,255);
         };
-
+    }
+    private char getOrganismChar(String organismName) {
+        return switch (organismName) {
+            case "Human" -> 'H';
+            case "Wolf" -> 'W';
+            case "Sheep" -> 'S';
+            case "Fox" -> 'F';
+            case "Turtle" -> 'T';
+            case "Antelope" -> 'A';
+            case "Grass" -> 'G';
+            case "Sow thistle" -> 'M';
+            case "Guarana" -> 'P';
+            case "Belladonna" -> 'J';
+            case "Sosnowsky hogweed" -> 'B';
+            default -> throw new IllegalStateException("Unexpected value: " + organismName);
+        };
+    }
+    private void freeSpace() {
+        Organism[] opponent = new Organism[1];
+        world.findOpponent(this.col, this.row, opponent, null);
+        world.organismKilled(opponent[0]);
     }
 }

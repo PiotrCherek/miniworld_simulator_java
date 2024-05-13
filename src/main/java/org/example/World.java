@@ -374,6 +374,8 @@ public class World {
         } catch (FileNotFoundException exc) {
             exc.printStackTrace();
         }
+        updateBoard();
+        drawWorld();
     }
     public void makeTurn(Human human) {
         for (int i = 0; i < getOrganismCount(); i++) {
@@ -387,26 +389,11 @@ public class World {
             }
         }
 
-        //frame.clearBoardFields();
         updateBoard();
         drawWorld();
-        //frame.showInterface();
         System.out.println("\nPRESS ANY KEY FOR NEXT ROUND");
         System.out.println("OR 'Q' TO SAVE GAME : 'W' FOR LOADING THE SAVE");
         report.reportOfTheTurn();
-
-//        Scanner scanner = new Scanner(System.in);
-//        char input = scanner.next().charAt(0);
-//        switch (input) {
-//            case Defines.SAVE_GAME:
-//                saveGame(human, human.getSuperpowerActive(), human.getSuperpowerCooldown(), human.getSuperpowerTurnsLeft());
-//                break;
-//            case Defines.LOAD_GAME:
-//                loadGame();
-//                break;
-//            default:
-//                break;
-//        }
     }
     public void startSimulation() {
         clearWorldBoard();
@@ -414,7 +401,7 @@ public class World {
         getRandomCoords(coords);
         // Creating human, because there is always just one
         Human human = new Human(this, coords[0], coords[1]);
-        addOrganism(human);
+        //addOrganism(human);
         frame.addHuman(human);
 
         char[] organismChars = {'W', 'S', 'F', 'T', 'A', 'G', 'M', 'P', 'J', 'B'};
