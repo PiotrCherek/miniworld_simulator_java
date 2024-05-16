@@ -104,9 +104,8 @@ public class Frame extends JFrame implements KeyListener {
         JPanel humanInfo = new JPanel();
         int humanInfoWidth = boardPanelWidth + legendPanelWidth;
         int humanInfoHeight = 35;
-        int humanInfoX = boardPanelX;
         int humanInfoY = boardPanelY - 75;
-        humanInfo.setBounds(humanInfoX, humanInfoY, humanInfoWidth, humanInfoHeight);
+        humanInfo.setBounds(boardPanelX, humanInfoY, humanInfoWidth, humanInfoHeight);
         humanInfo.setLayout(new BorderLayout());
         JTextArea info = new JTextArea("Human: Superpower - Turns left: " + human.getSuperpowerTurnsLeft() + " Cooldown: " + human.getSuperpowerCooldown());
         info.setFont(new Font(reportTextBlock.getFont().getName(), reportTextBlock.getFont().getStyle(), 20));
