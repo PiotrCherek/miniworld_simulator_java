@@ -99,11 +99,16 @@ public class Frame extends JFrame implements KeyListener {
         int reportPanelX = controlPanelX;
         int reportPanelY = controlPanelY + controlPanelHeight + 20;
         reportPanel.setBounds(reportPanelX, reportPanelY, reportPanelWidth, reportPanelHeight);
-        //reportPanel.setLayout(new GridLayout(1, 1));
+        reportPanel.setLayout(new BorderLayout());
         JTextArea reportTextBlock = new JTextArea();
+        //reportTextBlock.setBounds(reportPanelX, reportPanelY, reportPanelWidth, reportPanelHeight);
+        reportTextBlock.setEditable(false);
+        reportTextBlock.setLineWrap(true);
+
         reportTextBlock.setFont(new Font(reportTextBlock.getFont().getName(), reportTextBlock.getFont().getStyle(), 20));
         reportTextBlock.append(report.reportOfTheTurn());
-        reportPanel.add(reportTextBlock);
+        JScrollPane scroll = new JScrollPane(reportTextBlock, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        reportPanel.add(scroll, BorderLayout.CENTER);
         this.add(reportPanel);
 
         this.setVisible(true);
