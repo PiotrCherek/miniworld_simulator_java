@@ -16,7 +16,7 @@ public class Frame extends JFrame implements KeyListener {
     Frame(World world) {
         this.world = world;
         this.setSize(frame_width, frame_height);
-        this.setTitle("MINIWORLD");
+        this.setTitle("MINIWORLD BY " + Defines.AUTHOR + ' ' + Defines.INDEX);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setLayout(null);
