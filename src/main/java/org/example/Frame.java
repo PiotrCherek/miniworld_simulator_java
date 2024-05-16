@@ -13,6 +13,7 @@ public class Frame extends JFrame implements KeyListener {
     private static final int mainPanel_width = (int) (frame_width * 0.7);
     Human human;
     World world;
+    Report report;
     private char lastPressedKey = '\0';
 
     Frame(World world) {
@@ -33,16 +34,18 @@ public class Frame extends JFrame implements KeyListener {
     }
     public void addHuman(Human human) {
         this.human = human;
-        //this.addKeyListener(human);
+    }
+    public void addReport(Report report) {
+        this.report = report;
     }
     public void showInterface() {
         Container pane = this.getContentPane();
         pane.removeAll();
 
-        JPanel mainPanel = new JPanel();
-        mainPanel.setBackground(Color.gray);
-        mainPanel.setLayout(null);
-        mainPanel.setBounds(0,0, mainPanel_width, mainPanel_height);
+//        JPanel mainPanel = new JPanel();
+//        mainPanel.setBackground(Color.gray);
+//        mainPanel.setLayout(null);
+//        mainPanel.setBounds(0,0, mainPanel_width, mainPanel_height);
 
         JPanel boardPanel = new JPanel();
         int boardPanelWidth = 400;
@@ -77,7 +80,7 @@ public class Frame extends JFrame implements KeyListener {
 
         JPanel controlPanel = new JPanel();
         int controlPanelWidth = legendPanelWidth * 2;
-        int controlPanelHeight = legendPanelHeight/4;//(int)(legendPanelHeight * 1.35);
+        int controlPanelHeight = legendPanelHeight/4;
         int controlPanelX = legendPanelX + legendPanelWidth + 20;
         int controlPanelY = boardPanelY/2;
         controlPanel.setBounds(controlPanelX, controlPanelY, controlPanelWidth, controlPanelHeight);
@@ -89,6 +92,19 @@ public class Frame extends JFrame implements KeyListener {
         controlPanel.add(saveGameButton);
         controlPanel.add(loadGameButton);
         this.add(controlPanel);
+
+        JPanel reportPanel = new JPanel();
+        int reportPanelWidth = controlPanelWidth;
+        int reportPanelHeight = 400;
+        int reportPanelX = controlPanelX;
+        int reportPanelY = controlPanelY + controlPanelHeight + 20;
+        reportPanel.setBounds(reportPanelX, reportPanelY, reportPanelWidth, reportPanelHeight);
+        //reportPanel.setLayout(new GridLayout(1, 1));
+        JTextArea reportTextBlock = new JTextArea();
+        reportTextBlock.setFont(new Font(reportTextBlock.getFont().getName(), reportTextBlock.getFont().getStyle(), 20));
+        reportTextBlock.append(report.reportOfTheTurn());
+        reportPanel.add(reportTextBlock);
+        this.add(reportPanel);
 
         this.setVisible(true);
     }

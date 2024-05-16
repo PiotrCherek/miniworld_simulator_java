@@ -403,6 +403,7 @@ public class World {
         Human human = new Human(this, coords[0], coords[1], frame);
         addOrganism(human);
         frame.addHuman(human);
+        frame.addReport(report);
 
         char[] organismChars = {'W', 'S', 'F', 'T', 'A', 'G', 'M', 'P', 'J', 'B'};
         for (int i = 0; i < Defines.NUM_OF_ORGANISMS; i++) {
@@ -425,16 +426,6 @@ public class World {
 
         updateBoard();
         drawWorld();
-        //frame.showInterface();
-        //System.out.println("\nPRESS ANY KEY TO START");
         report.reportOfTheTurn();
-        //makeTurn(human);
-//
-//        Scanner scanner = new Scanner(System.in);
-//        scanner.nextLine(); // Wait for user to press any key
-
-//        while (true) {
-//            makeTurn(human);
-//        }
     }
 }

@@ -15,10 +15,21 @@ public class Report {
     public void fightReport(String winnerName, String loserName) {
         report.add(winnerName + " has killed " + loserName + " [*]");
     }
-    public void reportOfTheTurn() {
-        System.out.println("REPORT:");
+    public String reportOfTheTurn() {
+//        System.out.println("REPORT:");
+        StringBuilder finalReport = new StringBuilder();
+        finalReport.append("REPORT:\n");
         while (!report.isEmpty()) {
-            System.out.println(report.remove());
+            finalReport.append(report.remove());
+            finalReport.append("\n");
+//            System.out.println(report.remove());
         }
+        return finalReport.toString();
     }
+//    public void reportOfTheTurn() {
+//        System.out.println("REPORT:");
+//        while (!report.isEmpty()) {
+//            System.out.println(report.remove());
+//        }
+//    }
 }
