@@ -2,7 +2,7 @@ package org.example;
 import java.util.Queue;
 import java.util.LinkedList;
 public class Report {
-    private Queue<String> report;
+    private final Queue<String> report;
     public Report() {
         this.report = new LinkedList<>();
     }
@@ -16,20 +16,12 @@ public class Report {
         report.add(winnerName + " has killed " + loserName + " [*]");
     }
     public String reportOfTheTurn() {
-//        System.out.println("REPORT:");
         StringBuilder finalReport = new StringBuilder();
         finalReport.append("REPORT:\n");
         while (!report.isEmpty()) {
             finalReport.append(report.remove());
             finalReport.append("\n");
-//            System.out.println(report.remove());
         }
         return finalReport.toString();
     }
-//    public void reportOfTheTurn() {
-//        System.out.println("REPORT:");
-//        while (!report.isEmpty()) {
-//            System.out.println(report.remove());
-//        }
-//    }
 }

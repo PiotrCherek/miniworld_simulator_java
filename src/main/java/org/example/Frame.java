@@ -1,5 +1,4 @@
 package org.example;
-import com.formdev.flatlaf.FlatDarculaLaf;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,8 +8,6 @@ import java.awt.event.KeyListener;
 public class Frame extends JFrame implements KeyListener {
     private static final int frame_width = 1200;
     private static final int frame_height = 700;
-    private static final int mainPanel_height = frame_height;
-    private static final int mainPanel_width = (int) (frame_width * 0.7);
     Human human;
     World world;
     Report report;
@@ -41,11 +38,6 @@ public class Frame extends JFrame implements KeyListener {
     public void showInterface() {
         Container pane = this.getContentPane();
         pane.removeAll();
-
-//        JPanel mainPanel = new JPanel();
-//        mainPanel.setBackground(Color.gray);
-//        mainPanel.setLayout(null);
-//        mainPanel.setBounds(0,0, mainPanel_width, mainPanel_height);
 
         JPanel boardPanel = new JPanel();
         int boardPanelWidth = 400;
@@ -94,11 +86,9 @@ public class Frame extends JFrame implements KeyListener {
         this.add(controlPanel);
 
         JPanel reportPanel = new JPanel();
-        int reportPanelWidth = controlPanelWidth;
         int reportPanelHeight = 400;
-        int reportPanelX = controlPanelX;
         int reportPanelY = controlPanelY + controlPanelHeight + 20;
-        reportPanel.setBounds(reportPanelX, reportPanelY, reportPanelWidth, reportPanelHeight);
+        reportPanel.setBounds(controlPanelX, reportPanelY, controlPanelWidth, reportPanelHeight);
         reportPanel.setLayout(new BorderLayout());
         JTextArea reportTextBlock = new JTextArea();
         //reportTextBlock.setBounds(reportPanelX, reportPanelY, reportPanelWidth, reportPanelHeight);
@@ -110,6 +100,18 @@ public class Frame extends JFrame implements KeyListener {
         JScrollPane scroll = new JScrollPane(reportTextBlock, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         reportPanel.add(scroll, BorderLayout.CENTER);
         this.add(reportPanel);
+
+        JPanel humanInfo = new JPanel();
+        int humanInfoWidth = boardPanelWidth + legendPanelWidth;
+        int humanInfoHeight = 35;
+        int humanInfoX = boardPanelX;
+        int humanInfoY = boardPanelY - 75;
+        humanInfo.setBounds(humanInfoX, humanInfoY, humanInfoWidth, humanInfoHeight);
+        humanInfo.setLayout(new BorderLayout());
+        JTextArea info = new JTextArea("Human: Superpower - Turns left: " + human.getSuperpowerTurnsLeft() + " Cooldown: " + human.getSuperpowerCooldown());
+        info.setFont(new Font(reportTextBlock.getFont().getName(), reportTextBlock.getFont().getStyle(), 20));
+        humanInfo.add(info, BorderLayout.WEST);
+        this.add(humanInfo);
 
         this.setVisible(true);
     }

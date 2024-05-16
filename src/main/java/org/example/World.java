@@ -6,16 +6,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.NoSuchFileException;
 import java.util.Random;
 import java.util.Scanner;
 public class World {
     private final int n, m;
-    private char[][] board;
-    private Organism[] organisms;
-    private int organismCount = 0;
-    private Report report;
-    private Frame frame;
+    private final char[][] board;
+    private final Organism[] organisms;
+    private int organismCount;
+    private final Report report;
+    private final Frame frame;
     public World() throws UnsupportedLookAndFeelException {
         this.n = Defines.WORLD_N;
         this.m = Defines.WORLD_M;
@@ -48,10 +47,7 @@ public class World {
         if (x < 0 || x >= Defines.WORLD_N) {
             return false;
         }
-        if (y < 0 || y >= Defines.WORLD_M) {
-            return false;
-        }
-        return true;
+        return y >= 0 && y < Defines.WORLD_M;
     }
     public void updateBoard() {
         clearWorldBoard();
@@ -236,29 +232,8 @@ public class World {
         }
         return newOrganism;
     }
-    public boolean isAnimal(Organism organism) {
-        char organismChar = organism.draw();
-        return switch (organismChar) {
-            case 'H', 'W', 'S', 'F', 'T', 'A' -> true;
-            default -> false;
-        };
-    }
     public void drawWorld() {
-        System.out.println(Defines.AUTHOR + "\t" + Defines.INDEX + "\n");
-        for (int row = 0; row < n; row++) {
-            for (int col = 0; col < m; col++) {
-                System.out.print(board[row][col] + " ");
-            }
-            System.out.println();
-        }
         frame.showInterface();
-//        try {
-//            frame = new Frame(this);
-//            frame.showInterface();
-//        }
-//        catch (UnsupportedLookAndFeelException except) {
-//            except.printStackTrace();
-//        }
     }
     public char getBoardCell(int row, int col) {
         return this.board[row][col];
@@ -314,7 +289,7 @@ public class World {
         coords[0] = new Random().nextInt(Defines.WORLD_N);
         coords[1] = new Random().nextInt(Defines.WORLD_M);
     }
-    public void saveGame(Human human, boolean spActive, int spCooldown, int spTurnsLeft) {
+    public void saveGame(boolean spActive, int spCooldown, int spTurnsLeft) {
         try (FileWriter gameState = new FileWriter("gameState.txt")) {
             gameState.write(getOrganismCount() + "\n");
             for (int i = 0; i < getOrganismCount(); i++) {
@@ -362,6 +337,7 @@ public class World {
                     human.setSuperpowerCooldown(superpowerCooldown);
                     human.setSuperpowerTurnsLeft(superpowerTurnsLeft);
                     addOrganism(human);
+                    frame.addHuman(human);
                 } else {
                     Organism newOrganism = createOrganism(organismChar, x, y);
                     newOrganism.setInitiative(initiative);
@@ -377,7 +353,7 @@ public class World {
         updateBoard();
         drawWorld();
     }
-    public void makeTurn(Human human) {
+    public void makeTurn() {
         for (int i = 0; i < getOrganismCount(); i++) {
             if (!organisms[i].isDead()) {
                 organisms[i].action(this);
@@ -391,8 +367,6 @@ public class World {
 
         updateBoard();
         drawWorld();
-        System.out.println("\nPRESS ANY KEY FOR NEXT ROUND");
-        System.out.println("OR 'Q' TO SAVE GAME : 'W' FOR LOADING THE SAVE");
         report.reportOfTheTurn();
     }
     public void startSimulation() {

@@ -1,7 +1,6 @@
 package org.example;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -9,7 +8,7 @@ public class controlButton extends JButton {
     public enum controlButtonType {
         NEXT_TURN,
         SAVE_GAME,
-        LOAD_GAME;
+        LOAD_GAME
     }
     controlButtonType buttonType;
     Human human;
@@ -39,10 +38,10 @@ public class controlButton extends JButton {
         }
     }
     private void nextTurn() {
-        world.makeTurn(human);
+        world.makeTurn();
     }
     private void saveGame() {
-        world.saveGame(human, human.getSuperpowerActive(), human.getSuperpowerCooldown(), human.getSuperpowerTurnsLeft());
+        world.saveGame(human.getSuperpowerActive(), human.getSuperpowerCooldown(), human.getSuperpowerTurnsLeft());
     }
     private void loadGame() {
         world.loadGame();

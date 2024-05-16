@@ -9,15 +9,12 @@ import java.util.Objects;
 public class boardField extends JButton {
     private final int row;
     private final int col;
-    private char organismChar;
     World world;
     boardField(World world, int row, int col, char organismChar) {
         super();
         this.row = row;
         this.col = col;
         this.world = world;
-        this.organismChar = organismChar;
-        //this.paintComponent(getOrganismColor(organismChar));
         this.setBackground(getOrganismColor('+'));
         this.setBackground(getOrganismColor(organismChar));
         addMouseListener(new MouseAdapter() {
@@ -34,8 +31,6 @@ public class boardField extends JButton {
             if (Objects.equals(organisms.getOrganismName(), "Human") || Objects.equals(organisms.getOrganismName(), "Default")) { continue; }
             JMenuItem organism = new JMenuItem(organisms.getOrganismName());
             organism.addActionListener(event -> {
-                //String q = organisms.getOrganismName();
-                //JOptionPane.showMessageDialog(boardField.this, "Selected organism: " + q + "\nCoordinates: (" + this.col + ", " + this.row + ")");
                 freeSpace();
                 world.addOrganism(world.createOrganism(getOrganismChar(organisms.getOrganismName()), this.col, this.row));
                 world.updateBoard();

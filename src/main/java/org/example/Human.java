@@ -1,7 +1,4 @@
 package org.example;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.Scanner;
 public class Human extends Animal { // HUMAN SUPERPOWER IS PURIFICATION
     private static final int HUMAN_STRENGTH = 5;
     private static final int HUMAN_INITIATIVE = 4;
@@ -38,7 +35,6 @@ public class Human extends Animal { // HUMAN SUPERPOWER IS PURIFICATION
     public int getSuperpowerTurnsLeft() {
         return this.superpowerTurnsLeft;
     }
-    private boolean humansTurn = false;
     public void purification(World world) {
         int x = this.getX();
         int y = this.getY();
@@ -64,14 +60,10 @@ public class Human extends Animal { // HUMAN SUPERPOWER IS PURIFICATION
         System.out.println("SUPERPOWER: " + "COOLDOWN - " + this.getSuperpowerCooldown() + " ACTIVE TURNS LEFT - " + this.getSuperpowerTurnsLeft());
         System.out.println("HUMAN STRENGHT: " + this.getStrength());
         this.increaseAge();
-        humansTurn = true;
         char input = frame.getLastPressedKey();
-//        Scanner scanner = new Scanner(System.in);
-//        char input = scanner.next().charAt(0);
         int tempX = getX();
         int tempY = getY();
         boolean[] directionChanged = new boolean[1];
-        directionChanged[0] = false;
 
         switch (input) {
             case 'w':

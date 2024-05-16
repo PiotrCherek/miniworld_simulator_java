@@ -5,12 +5,12 @@ public abstract class Organism {
     private int x, y;
     private int age = 0;
     private boolean dead = false;
-    private World world;
+    World world;
 
     public Organism(World world, int x, int y) {
-        this.world = world;
         this.x = x;
         this.y = y;
+        this.world = world;
         this.strength = 0;
         this.initiative = 0;
     }
