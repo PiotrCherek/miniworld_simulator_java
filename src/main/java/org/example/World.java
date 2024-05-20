@@ -395,11 +395,8 @@ public class World {
                     createAnimal(organismChars[i], coords[0], coords[1]);
                 }
             }
-
         }
-
         updateBoard();
         drawWorld();
-        report.reportOfTheTurn();
     }
 }
