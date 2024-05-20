@@ -56,9 +56,6 @@ public class Human extends Animal { // HUMAN SUPERPOWER IS PURIFICATION
     public void action(World world) {
         world.updateBoard();
         world.drawWorld();
-        System.out.println("HUMAN'S MOVE:\n'WSAD' TO MOVE : 'P' FOR SPECIAL ABILITY");
-        System.out.println("SUPERPOWER: " + "COOLDOWN - " + this.getSuperpowerCooldown() + " ACTIVE TURNS LEFT - " + this.getSuperpowerTurnsLeft());
-        System.out.println("HUMAN STRENGHT: " + this.getStrength());
         this.increaseAge();
         char input = frame.getLastPressedKey();
         int tempX = getX();

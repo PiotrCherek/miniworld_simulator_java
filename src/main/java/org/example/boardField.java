@@ -75,7 +75,8 @@ public class boardField extends JButton {
     }
     private void freeSpace() {
         Organism[] opponent = new Organism[1];
-        world.findOpponent(this.col, this.row, opponent, null);
-        world.organismKilled(opponent[0]);
+        if (world.findOpponent(this.col, this.row, opponent, null)) {
+            world.organismKilled(opponent[0]);
+        }
     }
 }
